@@ -10,4 +10,4 @@ Steps:
 - Store the new folder's ID in your .env file
 - Run the code and use Postman to upload files and check the /uploads folder
 
-Note: only image/file upload is done as of now
+For now code only uploads files/images
