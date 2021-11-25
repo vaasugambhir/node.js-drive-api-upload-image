@@ -44,12 +44,16 @@ const uploadFile = async (req, res) => {
 };
 
 const getAllFiles = async (req, res) => {
-  const query = `${process.env.FOLDER_ID} in parents`;
-  const response = await driveService.files.list({
-    q: query, // comment this if you want all possible files
-    fields: "files(id, name)",
-  });
-  res.send(response);
+  try {
+    const q = `'${process.env.FOLDER_ID}' in parents`;
+    const response = await driveService.files.list({
+      q: q, // comment this if you want all possible files
+      fields: "files(id, name)",
+    });
+    res.send(response.data);
+  } catch (err) {
+    res.send(err);
+  }
 };
 
 const deleteFile = async (req, res) => {
@@ -75,6 +79,7 @@ const updateFile = async (req, res) => {
     };
 
     const response = await driveService.files.update({
+      resource: { name: image.originalname },
       addParents: `${process.env.FOLDER_ID}`,
       fileId: fileId,
       media: media,
